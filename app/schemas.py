@@ -20,7 +20,9 @@ class ItemCreate(BaseModel):
     condition: str
     tags: str
     image_url: str
-
+class Token(BaseModel):
+    access_token: str
+    token_type: str
 class ItemOut(ItemCreate):
     id: int
     status: str
