@@ -56,3 +56,16 @@ class SwapRequestOut(BaseModel):
 
     class Config:
         from_attributes = True
+class RedeemRequest(BaseModel):
+    item_id: int
+    points_used: int
+
+class RedemptionOut(BaseModel):
+    id: int
+    item_id: int
+    user_id: int
+    points_used: int
+    status: str
+
+    class Config:
+        from_attributes = True
