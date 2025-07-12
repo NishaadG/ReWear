@@ -29,3 +29,19 @@ class ItemOut(ItemCreate):
     owner_id: int
     class Config:
         orm_mode = True
+class ItemCreate(BaseModel):
+    title: str
+    description: str
+    category: str
+    size: str
+    condition: str
+    tags: str
+    image_url: str
+
+class ItemOut(ItemCreate):
+    id: int
+    status: str
+    owner_id: int
+
+    class Config:
+        from_attributes = True  # for Pydantic v2
