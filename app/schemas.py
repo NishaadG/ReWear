@@ -1,4 +1,10 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
+from typing import Optional
+from datetime import datetime
+
+# -----------------------------
+# USER SCHEMAS
+# -----------------------------
 
 class UserCreate(BaseModel):
     email: str
@@ -21,9 +27,12 @@ class UserOut(BaseModel):
     role: str
 
     class Config:
-        from_attributes = True  # Use from_attributes instead of orm_mode in Pydantic v2
+        from_attributes = True
 
 
+# -----------------------------
+# ITEM SCHEMAS
+# -----------------------------
 
 class ItemCreate(BaseModel):
     title: str
@@ -33,31 +42,36 @@ class ItemCreate(BaseModel):
     condition: str
     tags: str
     image_url: str
+    brand: Optional[str] = None
+    color: Optional[str] = None
+    material: Optional[str] = None
+    location: Optional[str] = None
+    exchange_method: Optional[str] = Field(default="both")  # swap / redeem / both
+
+class ItemOut(ItemCreate):
+    id: int
+    status: str
+    approved: bool
+    views: int
+    owner_id: int
+
+    class Config:
+        from_attributes = True
+
+
+# -----------------------------
+# AUTH TOKEN
+# -----------------------------
+
 class Token(BaseModel):
     access_token: str
     token_type: str
-class ItemOut(ItemCreate):
-    id: int
-    status: str
-    owner_id: int
-    class Config:
-        orm_mode = True
-class ItemCreate(BaseModel):
-    title: str
-    description: str
-    category: str
-    size: str
-    condition: str
-    tags: str
-    image_url: str
 
-class ItemOut(ItemCreate):
-    id: int
-    status: str
-    owner_id: int
 
-    class Config:
-        from_attributes = True  # for Pydantic v2
+# -----------------------------
+# SWAP & REDEEM SCHEMAS
+# -----------------------------
+
 class SwapRequestCreate(BaseModel):
     item_id: int
 
@@ -69,6 +83,7 @@ class SwapRequestOut(BaseModel):
 
     class Config:
         from_attributes = True
+
 class RedeemRequest(BaseModel):
     item_id: int
     points_used: int
@@ -79,6 +94,18 @@ class RedemptionOut(BaseModel):
     user_id: int
     points_used: int
     status: str
+
+    class Config:
+        from_attributes = True
+
+
+
+class ItemImageCreate(BaseModel):
+    url: str
+
+class ItemImageOut(BaseModel):
+    id: int
+    url: str
 
     class Config:
         from_attributes = True
