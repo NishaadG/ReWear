@@ -22,6 +22,8 @@ class Item(Base):
     tags = Column(String)
     image_url = Column(String)
     status = Column(String, default="available")  # available / swapped / redeemed
+    approved = Column(Boolean, default=False)
+
     owner_id = Column(Integer, ForeignKey("users.id"))
     owner = relationship("User", back_populates="items")
 
@@ -35,7 +37,7 @@ class SwapRequest(Base):
 
     item = relationship("Item")
     requester = relationship("User")
-    
+
 class Redemption(Base):
     __tablename__ = "redemptions"
 

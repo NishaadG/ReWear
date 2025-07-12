@@ -25,7 +25,7 @@ def create_item(item: schemas.ItemCreate, db: Session = Depends(get_db), current
 # Get All Items
 @router.get("/items/", response_model=list[schemas.ItemOut])
 def get_items(db: Session = Depends(get_db)):
-    return db.query(models.Item).filter(models.Item.status == "available").all()
+    return db.query(models.Item).filter(models.Item.approved == True).all()
 
 # Get Item by ID
 @router.get("/items/{item_id}", response_model=schemas.ItemOut)
