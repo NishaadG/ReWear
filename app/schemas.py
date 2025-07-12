@@ -45,3 +45,14 @@ class ItemOut(ItemCreate):
 
     class Config:
         from_attributes = True  # for Pydantic v2
+class SwapRequestCreate(BaseModel):
+    item_id: int
+
+class SwapRequestOut(BaseModel):
+    id: int
+    item_id: int
+    requester_id: int
+    status: str
+
+    class Config:
+        from_attributes = True

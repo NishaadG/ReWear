@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Text, Enum
 from sqlalchemy.orm import relationship
 from .database import Base
 
@@ -24,3 +24,14 @@ class Item(Base):
     status = Column(String, default="available")  # available / swapped / redeemed
     owner_id = Column(Integer, ForeignKey("users.id"))
     owner = relationship("User", back_populates="items")
+
+class SwapRequest(Base):
+    __tablename__ = "swap_requests"
+
+    id = Column(Integer, primary_key=True)
+    item_id = Column(Integer, ForeignKey("items.id"))
+    requester_id = Column(Integer, ForeignKey("users.id"))
+    status = Column(String, default="pending")  # pending, accepted, rejected, cancelled
+
+    item = relationship("Item")
+    requester = relationship("User")
