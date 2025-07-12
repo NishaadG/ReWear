@@ -8,6 +8,10 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     points = Column(Integer, default=0)
+    name = Column(String)
+    phone = Column(String)
+    address = Column(String)
+
     role = Column(String, default="user")  # or "admin"
     items = relationship("Item", back_populates="owner")
 
